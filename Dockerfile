@@ -14,6 +14,7 @@ WORKDIR /usr/src/app
 
 # Clone the Stockfish submodule
 RUN git clone --recurse-submodules https://github.com/pwcarney/stockfisherman.git .
+RUN git pull
 
 # Ensure submodules are updated
 RUN git submodule update --init --recursive
@@ -22,7 +23,7 @@ RUN git submodule update --init --recursive
 WORKDIR /usr/src/app/Stockfish/src
 
 # Build Stockfish
-RUN make ARCH=x86-64-modern
+RUN make ARCH=x86-64-sse41-popcnt
 
 # Return to the app directory
 WORKDIR /usr/src/app
