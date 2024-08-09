@@ -1,0 +1,32 @@
+# PyTorch and related libraries (installed in Dockerfile)
+torch
+torchvision
+torchaudio
+
+# Transformers for handling language models
+transformers
+
+# Datasets for managing and loading datasets
+datasets
+
+# PyTorch Lightning for structured model training
+pytorch-lightning
+
+# Scikit-learn for traditional ML tools
+scikit-learn
+
+# Pandas and NumPy for data handling and manipulation
+pandas
+numpy
+
+# Matplotlib for data visualization
+matplotlib
+
+# Flask for building a REST API
+flask
+
+# Requests for making HTTP requests (e.g., for API calls)
+requests
+
+# PyTest for testing
+pytest

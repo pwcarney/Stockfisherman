@@ -1,8 +1,9 @@
-# Use an official Python image with Ubuntu as the base
-FROM python:3.9-slim
+# Use NVIDIA's official CUDA image as the base
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
 # Install dependencies for building Stockfish
 RUN apt-get update && apt-get install -y \
+    python3-pip \
     build-essential \
     cmake \
     git \
@@ -12,24 +13,22 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 
 # Clone the Stockfish submodule
-RUN git clone --recurse-submodules https://github.com/yourusername/stockfisherman.git .
+RUN git clone --recurse-submodules https://github.com/pwcarney/stockfisherman.git .
 
-# Navigate to the Stockfish directory
-WORKDIR /usr/src/app/Stockfish
+# Ensure submodules are updated
+RUN git submodule update --init --recursive
+
+# Navigate to the Stockfish src directory
+WORKDIR /usr/src/app/Stockfish/src
 
 # Build Stockfish
-RUN make build ARCH=x86-64-modern
+RUN make ARCH=x86-64-modern
 
 # Return to the app directory
 WORKDIR /usr/src/app
-
-# Copy any additional project files (e.g., Python scripts, API code)
-COPY . .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the entrypoint to Stockfish or your Python script
 ENTRYPOINT ["./Stockfish/src/stockfish"]
-# Or, if you want to run a Python script:
-# ENTRYPOINT ["python", "your_script.py"]
